@@ -1,0 +1,48 @@
+This project is developed using python==3.11.4 and django to develope this Webservice.
+steps to run the project:-
+
+1) In order to run the project I have included Requirements.txt file in the root directory of safecaller folder(zipped). this file contains all the necessary dependencies
+to run the project hassel free. Please install the dependencies mentioned in requirement.txt file in a virtual 
+environment of your choice.
+2) please open the safecaller folder in an IDE and open the terminal and follow the commands.
+	-- python manage.py makemigrations
+	-- python manage.py migrate
+	Please run these commands in case of any unprecedented changes in the models.
+3) run the command:
+	-- python manage.py runserver
+
+After running this command you will be able to access all the endpoints.
+1) 
+    POST : api/register/
+	-- This is the very first endoint you have to hit in order to access other functionaity.
+		- This will take (Name, Phone_number, password, email_address(optional))
+
+	(I have build a custom authentication and authorization (JWT) token based system instead of using djangos default token based systems because djangos authentication system is slow, less flexible and less secure)
+	(This type of authentication and authorization systems is used in production grade application)
+	(SO, it will be tricky to wrap your head around but it will be worth once configured correctly)
+	(Perforamnce and Security is one of the criteria mentioned in the PDF file)
+
+    POST : api/login/
+	-- This endpoint will let you login into the backend and only then you will be allowed to use other services.
+		-You have login with the same phone_number and password with which you registered yourself.
+		- in response you will recieve two things:-
+			1) ACCESS TOKEN (expiration time = 60 min): you have to copy your access token somewhere in notebook because for subsequent
+					request you will be needing this token.add this access token in the in the request header in authorization token in Bearer
+				section. you will have to do this step once henceforth this token will be used for validations for future requests.
+			2) REFRESH TOKEN(expiration time = 30 days): you won't be needing this token unless you planned to hit the endpoints after 30 days.
+    GET  : api/token/refresh/
+	-- if you token is expired then either you will have to login again by using api/login/ route or you can use this route. this route accpets a refresh token(this is the same you got when you were loggin in) and in return it will give you a new access token which is be used for another 30 minutes.
+
+    POST : api/mark-spam/
+	-- this route will accpet a phone number which you want to mark as "SPAM"
+
+    POST : api/addcontact/
+	-- This is an additional route, if you want to add your contacts, you can use this route. (it accept a JSON of Name and Phone_number)
+
+    GET  : api/search/
+	-- You can search either by name or Phone_number
+
+
+
+]
+
